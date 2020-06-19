@@ -210,7 +210,7 @@ $(document).ready(async function () {
                                 let tpl = `
                                 <div id="${res.id}" class="post">
                                 <div class="post-header">
-                                    <div><img src="${res.user}data/public/${photo}" class="post-photo" alt="User Image"></div>
+                                    <div><img src="${res.user}data/public/photos/${photo}" class="post-photo" alt="User Image"></div>
                                     <div><a target="_blank" href="${res.user}">${name}</a></div>
                                     <div>${date.toLocaleDateString()}</div>
                                 </div>
