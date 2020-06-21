@@ -1,10 +1,15 @@
 $(document).ready(async function () {
 
+    /*const gun = Gun({
+        peers: ['http://gunjs.herokuapp.com/gun']
+    });*/
     let gun = Gun();
+    let user = gun.user();
 
     var port = chrome.runtime.connect({
         name: "dvo"
     });
+
 
     async function getPageUrl() {
         return new Promise(resolve => {
@@ -17,6 +22,10 @@ $(document).ready(async function () {
             });
         });
     }
+
+    $('#add-contact').click(function () {
+        //to do
+    });
 
     let page_url = await getPageUrl();
     let profileInfo = await getProfileInfo();
@@ -59,12 +68,12 @@ $(document).ready(async function () {
     $('#like').click(async function () {
         key = getKey(likes);
         if (key) {
-            gun.get(page_url).get('likes').get(key).put(null);
+            gun.get('DVO').get(page_url).get('likes').get(key).put(null);
         } else {
-            gun.get(page_url).get('likes').set(profile_url);
+            gun.get('DVO').get(page_url).get('likes').set(profile_url);
             key = getKey(dislikes);
             if (key) {
-                gun.get(page_url).get('dislikes').get(key).put(null);
+                gun.get('DVO').get(page_url).get('dislikes').get(key).put(null);
             }
         }
         count = await getLikes('likes');
@@ -74,12 +83,12 @@ $(document).ready(async function () {
     $('#dislike').click(async function () {
         key = getKey(dislikes);
         if (key) {
-            gun.get(page_url).get('dislikes').get(key).put(null);
+            gun.get('DVO').get(page_url).get('dislikes').get(key).put(null);
         } else {
-            gun.get(page_url).get('dislikes').set(profile_url);
+            gun.get('DVO').get(page_url).get('dislikes').set(profile_url);
             key = getKey(likes);
             if (key) {
-                gun.get(page_url).get('likes').get(key).put(null);
+                gun.get('DVO').get(page_url).get('likes').get(key).put(null);
             }
         }
         count = await getLikes('dislikes');
@@ -90,11 +99,11 @@ $(document).ready(async function () {
     async function getLikes(type) {
         let array = [];
         return new Promise(async resolve => {
-            let chain = await gun.get(page_url).get(type);
+            let chain = await gun.get('DVO').get(page_url).get(type);
             if (chain === undefined) {
                 resolve(array);
             } else {
-                gun.get(page_url).get(type).map().on(function (data, key) {
+                gun.get('DVO').get(page_url).get(type).map().on(function (data, key) {
                     if (data !== null) {
                         var id = key;
                         var url = data;
@@ -112,12 +121,14 @@ $(document).ready(async function () {
 
     $('#login').click(function () {
         let p_url = $('#profile-url').val();
-        let pw = $('#password').val();
-        pw = window.btoa(pw);
+        let u = $('#username').val();
+        let p = $('#password').val();
+        p = window.btoa(p);
         port.postMessage({
             type: "login",
             profile_url: p_url,
-            password: pw
+            username: u,
+            password: p
         });
     });
 
@@ -190,9 +201,9 @@ $(document).ready(async function () {
     }
 
     async function showComments() {
-        let chain = await gun.get(page_url).get('posts');
+        let chain = await gun.get('DVO').get(page_url).get('posts');
         if (chain !== undefined) {
-            gun.get(page_url).get('posts').map().once(function (res) {
+            gun.get('DVO').get(page_url).get('posts').map().once(function (res) {
                 $.ajax({
                     type: "GET",
                     url: `${res.user}data/public/posts/${res.id}.xml`,
@@ -242,7 +253,7 @@ $(document).ready(async function () {
             post: post,
             password: window.atob(password)
         }).done(function (data) {
-            gun.get(page_url).get('posts').set({
+            gun.get('DVO').get(page_url).get('posts').set({
                 id: id,
                 user: profile_url
             });

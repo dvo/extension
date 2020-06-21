@@ -94,9 +94,29 @@ chrome.runtime.onConnectExternal.addListener(function (port) {
 
 chrome.runtime.onConnect.addListener(function (port) {
     port.onMessage.addListener(async function (request) {
+
+        /*const gun = Gun({
+            peers: ['http://gunjs.herokuapp.com/gun']
+        });
+        let user = gun.user();*/
+
         if (request.type === 'login') {
             localStorage.setItem("profile_url", request.profile_url);
             localStorage.setItem("password", request.password);
+            /*let u = request.username;
+            let p = request.password;
+            try {
+                await user.create(u, p, function () {
+                    user.auth(u, p, function (msg) {
+                        user.get('profile_url').put(request.profile_url);
+                    });
+                });
+            } catch (e) {
+                console.log(e);
+                await user.auth(u, p, function (msg) {
+                    console.log(msg);
+                });
+            }*/
         }
 
         if (request.type === 'get-profile-info') {
@@ -113,8 +133,8 @@ chrome.runtime.onConnect.addListener(function (port) {
             alert('like');
             let page_url = await getPageUrl();
             let profile_url = localStorage.getItem("profile_url");
-            gun.get(page_url).set(profile_url);
-            gun.get(page_url).once(function (likes) {
+            gun.get('DVO').get(page_url).set(profile_url);
+            gun.get('DVO').get(page_url).once(function (likes) {
                 port.postMessage({
                     type: "like",
                     likes: likes

@@ -21,6 +21,9 @@
         "scripts": [
             "js/jquery-3.3.1.js",
             "js/jquery.md5.min.js",
+            "js/gun.js",
+            "js/sea.js",
+            "js/webrtc.js",
             "background.js"],
         "persistent": false
     },
