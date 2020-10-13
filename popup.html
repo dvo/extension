@@ -3,49 +3,44 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@jsweb/font-awesome-base64" />
-    <script src="js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="popup.css" />
+    <script src="js/vendor/jquery-3.3.1.js"></script>
+    <script src="js/vendor/jquery.md5.min.js"></script>
+    <script src="js/vendor/gun.js"></script>
+    <script src="js/vendor/sea.js"></script>
+    <script src="js/vendor/webrtc.js"></script>
+    <!-- custom scripts -->
     <script src="js/popup.js"></script>
-    <script src="js/jquery.md5.min.js"></script>
+    <script src="js/navigation.js"></script>
     <script type="module" src="js/stars.js"></script>
-    <script src="js/gun.js"></script>
-    <script src="js/sea.js"></script>
-    <script src="js/webrtc.js"></script>
 </head>
 
 <body>
-    <div class="toolbar">
-        <div id="like"><i class="fa fa-thumbs-up red"></i></div>
-        <div id="likes">0</div>
-        <div id="dislike"><i class="fa fa-thumbs-down blue"></i></div>
-        <div id="dislikes">0</div>
-        <div>
-            <x-star-rating number="5" value="3"></x-star-rating>
-        </div>
-        <div id="add-contact"><i class="fa fa-user-plus green"></i></div>
-        <!--<div><span id="score">0</span>%</div>
-        <div id="comment"><i class="yellow fa fa-comment"></i></div>
-        <div id="comments">0</div>-->
-    </div>
-    <nav>
-        <div>
-            <button data-page="comments" class="comments link active">
-                <div><i class="fa fa-comment"></i></div>Comments</button>
-        </div>
-        <div>
-            <button data-page="inbox" class="inbox link">
-                <div><i class="fa fa fa-envelope"></i></div>Inbox (<span class="msg-count">0</span>)</button>
-        </div>
-        <!-- <div>
-            <button data-page="apps" class="apps link">
-                <div><i class="fa fa-search"></i></div>Apps</button>
-        </div>-->
-        <div>
-            <button data-page="settings" class="settings link">
-                <div><i class="fa fa-cog"></i></div>Settings</button>
-        </div>
-    </nav>
     <div id="container">
+        <div class="toolbar">
+            <div id="like"><i class="fa fa-thumbs-up red"></i></div>
+            <div id="likes">0</div>
+            <div id="dislike"><i class="fa fa-thumbs-down blue"></i></div>
+            <div id="dislikes">0</div>
+            <div>
+                <x-star-rating number="5" value="3"></x-star-rating>
+            </div>
+            <div id="add-contact"><i class="fa fa-user-plus green"></i></div>
+        </div>
+        <nav>
+            <div>
+                <button data-page="comments" class="comments link active">
+                    <div><i class="fa fa-comment"></i></div>Comments</button>
+            </div>
+            <div>
+                <button data-page="inbox" class="inbox link">
+                    <div><i class="fa fa fa-envelope"></i></div>Inbox (<span class="msg-count">0</span>)</button>
+            </div>
+            <div>
+                <button data-page="settings" class="settings link">
+                    <div><i class="fa fa-cog"></i></div>Settings</button>
+            </div>
+        </nav>
         <div id="comments" class="page fadeIn">
             <section>
                 <form id="add" action="http://localhost/DVO/api.php" method="post">
@@ -56,7 +51,6 @@
             </section>
             <div id="comments-list"></div>
         </div>
-
         <div id="inbox" class="page fadeIn" style="display:none">
             <section></section>
         </div>
@@ -74,20 +68,16 @@
                         <div><i class="fa fa-plus"></i></div>
                     </summary>
                     <section>
-                        <div class="spacer-15px"></div>
-                        <div>Profile URL (optional)</div>
+                        <div class="red center login-result" style="margin: 15px 0;"></div>
+                        <div>Profile URL</div>
                         <div class="spacer-15px"></div>
                         <input id="profile-url" class="form-control">
-                        <div class="spacer-15px"></div>
-                        <div>Username</div>
-                        <div class="spacer-15px"></div>
-                        <input type="text" id="username" class="form-control">
                         <div class="spacer-15px"></div>
                         <div>Password</div>
                         <div class="spacer-15px"></div>
                         <input type="password" id="password" class="form-control">
                         <div class="spacer-15px"></div>
-                        <button id="login" class="btn btn-green">LOGIN</button>
+                        <button id="login" class="btn btn-green full-width">LOGIN</button>
                         <div class="spacer-15px"></div>
                     </section>
                 </details>
@@ -101,10 +91,6 @@
                     <section>
                         <div class="spacer-15px"></div>
                         <div class="red center change-password-result"></div>
-                        <div>Old Password</div>
-                        <div class="spacer-15px"></div>
-                        <input type="text" id="o_password" class="form-control">
-                        <div class="spacer-15px"></div>
                         <div>New Password</div>
                         <div class="spacer-15px"></div>
                         <input type="text" id="n_password" class="form-control">
@@ -113,7 +99,7 @@
                         <div class="spacer-15px"></div>
                         <input type="text" id="c_n_password" class="form-control">
                         <div class="spacer-15px"></div>
-                        <button id="change-password" class="btn btn-yellow">CHANGE</button>
+                        <button id="change-password" class="btn btn-yellow full-width">CHANGE</button>
                         <div class="spacer-15px"></div>
                     </section>
                 </details>
@@ -130,7 +116,7 @@
                         <div class="spacer-15px"></div>
                         <input type="text" id="token" class="form-control" value="">
                         <div class="spacer-15px"></div>
-                        <button id="generate-token" class="btn btn-red">GENERATE</button>
+                        <button id="generate-token" class="btn btn-red full-width">GENERATE</button>
                         <div class="spacer-15px"></div>
                         <p>Copy the token, login to your hosting control panel and then paste the token into the password field in data/private/user.xml</p>
                     </section>

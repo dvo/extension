@@ -1,44 +1,45 @@
 {
-    "name": "DVO",
-    "version": "0.0.1",
-    "manifest_version": 2,
-    "description": "A bridge between your personal datastore, and the rest of the world",
-    "permissions": [
-        "<all_urls>",
-        "activeTab",
-        "contextMenus"
-    ],
-    "browser_action": {
+    "name": "DVO"
+    , "version": "0.0.1"
+    , "manifest_version": 2
+    , "description": "A bridge between your personal datastore, and the rest of the world"
+    , "permissions": [
+        "<all_urls>"
+        , "activeTab"
+        , "contextMenus"
+        , "storage"
+    ]
+    , "browser_action": {
         "default_icon": { // optional
             "16": "icons/icon16.png", // optional
             "24": "icons/icon48.png", // optional
             "32": "icons/icon128.png" // optional
-        },
-        "default_title": "DVO",
-        "default_popup": "popup.html"
-    },
-    "background": {
+        }
+        , "default_title": "DVO"
+        , "default_popup": "popup.html"
+    }
+    , "background": {
         "scripts": [
-            "js/jquery-3.3.1.js",
-            "js/jquery.md5.min.js",
-            "js/gun.js",
-            "js/sea.js",
-            "js/webrtc.js",
-            "background.js"],
-        "persistent": false
-    },
-    "web_accessible_resources": [
-        "css/*",
-        "js/*"
-     ],
-    "content_scripts": [
+            "js/vendor/jquery-3.3.1.js"
+            , "js/vendor/jquery.md5.min.js"
+            , "js/vendor/gun.js"
+            , "js/vendor/sea.js"
+            , "js/vendor/webrtc.js"
+            , "background.js"]
+        , "persistent": false
+    }
+    , "web_accessible_resources": [
+        "css/*"
+        , "js/*"
+     ]
+    , "content_scripts": [
         {
             "matches": [
         "<all_urls>"
-      ],
-            "js": [
-        "js/jquery-3.3.1.js",
-        "js/events.js"
+      ]
+            , "js": [
+        "js/vendor/jquery-3.3.1.js"
+        , "js/inject.js"
       ]
     }
   ]
